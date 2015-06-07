@@ -11,10 +11,50 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150404205546) do
+ActiveRecord::Schema.define(version: 20150606225204) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "fr_companies", force: :cascade do |t|
+    t.text     "siret",                  null: false
+    t.text     "ville"
+    t.text     "code_postal"
+    t.text     "numero_et_voie"
+    t.text     "gmap_geocoded_address"
+    t.boolean  "gmap_null_result"
+    t.boolean  "gmap_partial_match"
+    t.text     "gmap_longitude"
+    t.text     "gmap_latitude"
+    t.text     "gmap_location_type"
+    t.text     "gmap_street_number"
+    t.text     "gmap_locality"
+    t.text     "gmap_route"
+    t.text     "gmap_country_code"
+    t.text     "gmap_postal_code"
+    t.text     "gmap_formatted_address"
+    t.text     "gmap_json"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "fr_companies", ["code_postal"], name: "index_fr_companies_on_code_postal", using: :btree
+  add_index "fr_companies", ["gmap_location_type"], name: "index_fr_companies_on_gmap_location_type", using: :btree
+  add_index "fr_companies", ["gmap_null_result"], name: "index_fr_companies_on_gmap_null_result", using: :btree
+  add_index "fr_companies", ["gmap_partial_match"], name: "index_fr_companies_on_gmap_partial_match", using: :btree
+  add_index "fr_companies", ["siret"], name: "index_fr_companies_on_siret", unique: true, using: :btree
+
+  create_table "proxies", force: :cascade do |t|
+    t.string   "url"
+    t.datetime "last_query_at"
+    t.datetime "daily_quota_hit_at"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  add_index "proxies", ["daily_quota_hit_at"], name: "index_proxies_on_daily_quota_hit_at", using: :btree
+  add_index "proxies", ["last_query_at"], name: "index_proxies_on_last_query_at", using: :btree
+  add_index "proxies", ["url"], name: "index_proxies_on_url", unique: true, using: :btree
 
   create_table "uk_companies", force: :cascade do |t|
     t.string   "company_name",                           null: false

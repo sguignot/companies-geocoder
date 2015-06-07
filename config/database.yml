@@ -5,7 +5,7 @@ default: &default
 
 development:
   <<: *default
-  database: compgeo_dev
+  database: compgeocode_dev
   username: compgeo
   password:
 
@@ -14,12 +14,12 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: compgeo_test
+  database: compgeocode_test
   username: compgeo
   password:
 
 production:
   <<: *default
-  database: compgeo_prod
+  database: compgeocode_prod
   username: compgeo
   password:
