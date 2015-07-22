@@ -1,4 +1,4 @@
-class GeocodeFrCompaniesWorker
+class GeocodeGoogleFrCompaniesWorker
   include Sidekiq::Worker
   sidekiq_options :retry => 3
 

@@ -1,0 +1,45 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  geocoded_address: MyText
+  n_results: 1
+  pos: MyText
+  latitude: MyText
+  longitude: MyText
+  building_number: MyText
+  street: MyText
+  municipality: MyText
+  qualite: MyText
+  departement: MyText
+  bbox: MyText
+  commune: MyText
+  insee: MyText
+  territoire: MyText
+  id_ign: MyText
+  id_tr: MyText
+  postal_code: MyText
+  match_accuracy: MyText
+  match_type: MyText
+  ign_xml: MyText
+
+two:
+  geocoded_address: MyText
+  n_results: 1
+  pos: MyText
+  latitude: MyText
+  longitude: MyText
+  building_number: MyText
+  street: MyText
+  municipality: MyText
+  qualite: MyText
+  departement: MyText
+  bbox: MyText
+  commune: MyText
+  insee: MyText
+  territoire: MyText
+  id_ign: MyText
+  id_tr: MyText
+  postal_code: MyText
+  match_accuracy: MyText
+  match_type: MyText
+  ign_xml: MyText

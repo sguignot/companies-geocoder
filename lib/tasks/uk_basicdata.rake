@@ -36,7 +36,7 @@ namespace :uk_basicdata do
       companies_addresses = group.map do |company|
         { company_number: company.company_number, address_to_geocode: company.address_to_geocode }
       end
-      GeocodeUkCompaniesWorker.perform_async companies_addresses
+      GeocodeDstkUkCompaniesWorker.perform_async companies_addresses
     end
   end
 

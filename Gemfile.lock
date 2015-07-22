@@ -187,6 +187,7 @@ DEPENDENCIES
   faraday
   jbuilder (~> 2.0)
   jquery-rails
+  nokogiri
   pg
   rails (= 4.2.1)
   rest-client

@@ -17,8 +17,8 @@ namespace :fr_companies do
       puts "*** DONE!"
   end
 
-  desc 'Geocode french companies'
-  task :geocode => :environment do
+  desc 'Geocode french companies with Google Maps API'
+  task :geocode_google => :environment do
     columns = [
       :id,
       :siret,
@@ -27,11 +27,26 @@ namespace :fr_companies do
       :numero_et_voie
     ]
     FrCompany.select(columns).where(gmap_null_result: nil).each do |company|
-      GeocodeFrCompaniesWorker.perform_async company.siret, company.address_to_geocode
+      GeocodeGoogleFrCompaniesWorker.perform_async company.siret, company.address_to_geocode
     end
   end
 
-  desc 'Export french companies in CSV format enriched with geocode'
+  desc 'Geocode french companies with IGN Geoportail API'
+  task :geocode_ign => :environment do
+    # IGN API is buggy when the country 'France' is passed in free form address: wrong matches with Fort-de-France city
+    FrCompany.where(ign_geocoded_address: nil).
+      update_all("ign_geocoded_address = numero_et_voie || ' ' || code_postal || ' ' || ville")
+
+    FrCompany.select(:ign_geocoded_address).
+      joins('LEFT JOIN "ign_geocodes" ON "ign_geocodes"."geocoded_address" = "fr_companies"."ign_geocoded_address"').
+      where(ign_geocodes: {id: nil}).
+      where.not(ign_geocoded_address: nil).
+      uniq.order(:ign_geocoded_address).each do |company|
+      GeocodeIgnFrCompaniesWorker.perform_async(company.ign_geocoded_address)
+    end
+  end
+
+  desc 'Export french companies in CSV format enriched with Google geocode'
   task :export, [:filename] => :environment do |t, args|
     abs_path = File.absolute_path args[:filename]
     columns = FrCompany.columns.map(&:name) - ['id','gmap_json']

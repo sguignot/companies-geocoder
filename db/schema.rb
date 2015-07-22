@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150606225204) do
+ActiveRecord::Schema.define(version: 20150722100539) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,13 +36,47 @@ ActiveRecord::Schema.define(version: 20150606225204) do
     t.text     "gmap_json"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "ign_geocoded_address"
   end
 
   add_index "fr_companies", ["code_postal"], name: "index_fr_companies_on_code_postal", using: :btree
+  add_index "fr_companies", ["gmap_geocoded_address"], name: "index_fr_companies_on_gmap_geocoded_address", using: :btree
   add_index "fr_companies", ["gmap_location_type"], name: "index_fr_companies_on_gmap_location_type", using: :btree
   add_index "fr_companies", ["gmap_null_result"], name: "index_fr_companies_on_gmap_null_result", using: :btree
   add_index "fr_companies", ["gmap_partial_match"], name: "index_fr_companies_on_gmap_partial_match", using: :btree
+  add_index "fr_companies", ["ign_geocoded_address"], name: "index_fr_companies_on_ign_geocoded_address", using: :btree
   add_index "fr_companies", ["siret"], name: "index_fr_companies_on_siret", unique: true, using: :btree
+
+  create_table "ign_geocodes", force: :cascade do |t|
+    t.text     "geocoded_address", null: false
+    t.integer  "n_results",        null: false
+    t.text     "pos"
+    t.text     "latitude"
+    t.text     "longitude"
+    t.text     "building_number"
+    t.text     "street"
+    t.text     "municipality"
+    t.text     "qualite"
+    t.text     "departement"
+    t.text     "bbox"
+    t.text     "commune"
+    t.text     "insee"
+    t.text     "territoire"
+    t.text     "id_ign"
+    t.text     "id_tr"
+    t.text     "postal_code"
+    t.text     "match_accuracy"
+    t.text     "match_type"
+    t.text     "ign_xml",          null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  add_index "ign_geocodes", ["geocoded_address"], name: "index_ign_geocodes_on_geocoded_address", unique: true, using: :btree
+  add_index "ign_geocodes", ["match_accuracy"], name: "index_ign_geocodes_on_match_accuracy", using: :btree
+  add_index "ign_geocodes", ["match_type"], name: "index_ign_geocodes_on_match_type", using: :btree
+  add_index "ign_geocodes", ["n_results"], name: "index_ign_geocodes_on_n_results", using: :btree
+  add_index "ign_geocodes", ["qualite"], name: "index_ign_geocodes_on_qualite", using: :btree
 
   create_table "proxies", force: :cascade do |t|
     t.string   "url"

@@ -1,4 +1,4 @@
-class GeocodeUkCompaniesWorker
+class GeocodeDstkUkCompaniesWorker
   include Sidekiq::Worker
 
   def perform(companies_addresses)
